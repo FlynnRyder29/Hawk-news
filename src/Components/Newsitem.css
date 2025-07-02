@@ -1,0 +1,30 @@
+/* Add these styles to your CSS file or within a <style> tag in your component */
+.news-card {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden; /* Important for the zoom effect */
+    width:300px; /* or whatever width you want */
+    margin:10px;
+  }
+  
+  .image-container {
+    overflow: hidden; /* Ensures the zoomed image stays within the container */
+  }
+  
+  .card-img-top {
+    width: 100%;
+    height: auto;
+    transition: transform 0.3s ease-in-out; /* Smooth transition for zoom */
+  }
+  
+  .news-card:hover .card-img-top {
+    transform: scale(1.1); /* Zoom in on hover */
+  }
+  
+  .news-card:not(:hover) .card-img-top {
+    transform: scale(1);
+  }
+  
+  .card-body{
+    padding:10px;
+  }
