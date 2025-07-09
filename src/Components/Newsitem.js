@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 export class Newsitem extends Component {
   render() {
-    const { title, description, imageUrl } = this.props;
+    const { title, description, imageUrl,newsUrl } = this.props;
 
     return (
       <div className="news-card">
@@ -16,8 +16,9 @@ export class Newsitem extends Component {
           />
         </div>
         <div className="card-body">
-          <h5 className="card-title">{title || 'No Title'}</h5>
-          <p className="card-text">{description || 'No Description Available.'}</p>
+          <h5 className="card-title">{title || 'No Title'}...</h5>
+          <p className="card-text">{description || 'No Description Available.'}...</p>
+          <a href={newsUrl || '#'} className="btn btn-primary" target="" rel="noopener noreferrer">Read More</a>
         </div>
       </div>
     );
@@ -32,7 +33,8 @@ Newsitem.defaultProps={
 Newsitem.propTypes = {
   title: PropTypes.string,
   description: PropTypes.string,
-  imageUrl: PropTypes.string
+  imageUrl: PropTypes.string,
+  newsUrl: PropTypes.string
 };
 
 export default Newsitem;
