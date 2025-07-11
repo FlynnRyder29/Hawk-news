@@ -14,7 +14,7 @@ export class News extends Component {
   }
 
   async componentDidMount(){
-    let url="https://newsapi.org/v2/top-headlines?country=us&category=business&apiKey=d590dec237464665828f9e1ca2994593&page=1&pageSize=15";
+    let url=`https://newsapi.org/v2/top-headlines?country=us&category=business&apiKey=d590dec237464665828f9e1ca2994593&page=1&pageSize=${this.props.pageSize || 15}`;
     let data = await fetch(url);
     let parsedData=await data.json()
     this.setState({
@@ -23,11 +23,15 @@ export class News extends Component {
     })
   }
   handleNext=async()=>{
-    if (this.state.page+1>Math.ceil(this.state.totalResults/15)){
+    if (this.state.page+1>Math.ceil(this.state.totalResults/this.props.pageSize)) {
+      this.setState({
+        error: "No more articles available."
+      });
+      return;
 
     }
     else{
-    let url=`https://newsapi.org/v2/top-headlines?country=us&category=business&apiKey=d590dec237464665828f9e1ca2994593&page=${this.state.page+1}pageSize=15`;
+    let url=`https://newsapi.org/v2/top-headlines?country=us&category=business&apiKey=d590dec237464665828f9e1ca2994593&page=${this.state.page+1}&pageSize=${this.props.pageSize || 15}`;
     let data=await fetch(url);
     let parsedData=await data.json();
     this.setState({
@@ -38,7 +42,7 @@ export class News extends Component {
   }
   
   handlePrevious=async()=>{
-    let url=`https://newsapi.org/v2/top-headlines?country=us&category=business&apiKey=d590dec237464665828f9e1ca2994593&page=${this.state.page-1}pageSize=15`;
+    let url=`https://newsapi.org/v2/top-headlines?country=us&category=business&apiKey=d590dec237464665828f9e1ca2994593&page=${this.state.page-1}&pageSize=${this.props.pageSize || 15}`;
     let data=await fetch(url);
     let parsedData=await data.json();
     this.setState({
@@ -51,7 +55,7 @@ export class News extends Component {
   render() {
     return (
       <div className='container my-3'>
-        <h2>HawK News- Top Headlines</h2>
+        <h1 className='text-center'>HawK News- Top Headlines</h1>
         <div className="row">
           {this.state.articles.map((element)=>{
           return <div className="col-md-4" key={element.url||element.title}>
@@ -64,7 +68,7 @@ export class News extends Component {
           <button disabled={this.state.page<=1} type="button"
           className='btn btn dark' onClick={this.handlePrevious}>&larr; Previous</button>
             
-          <button disabled={this.state.page+1>Math.ceil(this.state.totalResults/15)} type="button" className="btn btn dark" onClick={this.handleNext}>Next &rarr;</button>
+          <button disabled={this.state.page+1>Math.ceil(this.state.totalResults/this.props.pageSize)} type="button" className="btn btn dark" onClick={this.handleNext}>Next &rarr;</button>
         </div>
       </div>
     )
