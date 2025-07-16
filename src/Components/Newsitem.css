@@ -1,6 +1,6 @@
 /* Add these styles to your CSS file or within a <style> tag in your component */
 .news-card {
-    border: 1px solid #ddd;
+    border: 1px solid #9d5100e3;
     border-radius: 8px;
     overflow: hidden; /* Important for the zoom effect */
     width:300px; /* or whatever width you want */
@@ -26,5 +26,8 @@
   }
   
   .card-body{
-    padding:10px;
+    background: rgba(12, 7, 1, 0.95); /* Solid or semi-solid white */
+    border-radius: 0 0 8px 8px;
+    padding: 16px;
+    color: #ca9204;
   }
