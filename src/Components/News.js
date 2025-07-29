@@ -1,16 +1,20 @@
 import React, { Component } from 'react'
 import Newsitem from './Newsitem'
+import './News.css';
 import Spinner from './Spinner';
-import proptypes from 'prop-types';
+import PropTypes from 'prop-types';
 export class News extends Component {
 
-  static defaultprops={
+  static defaultProps={
     country:"in",
-    pageSize:6
+    pageSize:6,
+    category:"general"
   }
-  // static proptypes={
-  //   country:
-  // }
+  static propTypes={
+    country:PropTypes.string,
+    pageSize:PropTypes.number,
+    category:PropTypes.string
+  }
 
   constructor(){
     super();
@@ -26,7 +30,7 @@ export class News extends Component {
   async fetchNews(page){
     this.setState({loading:true,error:null});
     try{
-      let url=`https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=business&apiKey=d590dec237464665828f9e1ca2994593&page=${page}&pageSize=${this.props.pageSize || 15}`;
+      let url=`https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=d590dec237464665828f9e1ca2994593&page=${page}&pageSize=${this.props.pageSize || 15}`;
       let data=await fetch(url);
       let parsedData=await data.json();
       this.setState({
@@ -80,9 +84,9 @@ export class News extends Component {
 
         <div className="news-pagination">
           <button disabled={this.state.page<=1} type="button"
-          className='btn btn dark' onClick={this.handlePrevious}>&larr; Previous</button>
+          className='button-pagination' onClick={this.handlePrevious}>&larr; Previous</button>
             
-          <button disabled={this.state.page+1>Math.ceil(this.state.totalResults/(this.props.pageSize||15))} type="button" className="btn btn dark" onClick={this.handleNext}>Next &rarr;</button>
+          <button disabled={this.state.page+1>Math.ceil(this.state.totalResults/(this.props.pageSize||15))} type="button" className="button-pagination" onClick={this.handleNext}>Next &rarr;</button>
         </div>
       </div>
     )

@@ -3,7 +3,6 @@
     border: 1px solid #9d5100e3;
     border-radius: 8px;
     overflow: hidden; /* Important for the zoom effect */
-    width:300px; /* or whatever width you want */
     margin:10px;
   }
   

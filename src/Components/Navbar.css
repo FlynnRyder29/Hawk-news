@@ -5,13 +5,13 @@ nav {
   width: 90%; /* Make it responsive */
   max-width: 1000px; /* Optional: Set a maximum width */
   height: 50px;
-  background-color: #34495e;
+  background-color: #1c1300;
   border-radius: 8px;
   font-size: 0;
   display: flex;
   justify-content: space-around; /* Distribute links evenly */
   align-items: center;
-  overflow: hidden; /* Ensure animations stay within the navbar */
+  /* overflow: hidden; Ensure animations stay within the navbar */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
@@ -98,6 +98,57 @@ a:nth-child(5):hover ~ .animation {
   left: 81%;
   background-color: #e67e22;
 }
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+  color: #f1f1f1;
+}
+
+.dropbtn {
+  background-color: transparent;
+  color: inherit;
+  font-size: 1rem;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  font-family: inherit;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: rgb(212, 159, 0);
+  min-width: 160px;
+  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+  top: 100%;
+  left: 0;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.dropdown-content a {
+  color: #000000;
+  padding: 10px 14px;
+  text-decoration: none;
+  display: block;
+  transition: background 0.2s ease;
+  text-align: left;
+  width: 100%; /* Ensures full width for hover */
+  box-sizing: border-box; /* Ensures padding is included in width */
+  min-width: 160px;         /* Optional: matches dropdown min-width */
+  white-space: normal;
+}
+
+.dropdown-content a:hover {
+  background-color: #220d01;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
 
 /* Add fade-in animation */
 @keyframes fadeIn {
