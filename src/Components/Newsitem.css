@@ -30,3 +30,114 @@
     padding: 16px;
     color: #ca9204;
   }
+.card-text small.text-muted {
+  color: #ffd700 !important; /* bright gold */
+  font-style: italic;
+  opacity: 0.85;
+}
+
+
+.btn-readmore {
+  display: inline-block;
+  padding: 12px 24px;
+  background: linear-gradient(135deg, #8b4513 0%, #a0522d 50%, #d2691e 100%);
+  color: #fff;
+  text-decoration: none;
+  font-family: 'Times New Roman', serif;
+  font-weight: bold;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  border: 2px solid #654321;
+  border-radius: 6px;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  margin-top: 12px;
+}
+
+/* Newspaper print effect overlay */
+.btn-readmore::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.2),
+    transparent
+  );
+  transition: left 0.5s ease;
+}
+
+/* Vintage newspaper texture effect */
+.btn-readmore::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: 
+    radial-gradient(circle at 25% 25%, rgba(255, 255, 255, 0.1) 1px, transparent 1px),
+    radial-gradient(circle at 75% 75%, rgba(0, 0, 0, 0.1) 1px, transparent 1px);
+  background-size: 8px 8px;
+  opacity: 0.3;
+  pointer-events: none;
+}
+
+.btn-readmore:hover {
+  background: linear-gradient(135deg, #a0522d 0%, #cd853f 50%, #daa520 100%);
+  border-color: #8b4513;
+  color: #000;
+  text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.3);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+}
+
+.btn-readmore:hover::before {
+  left: 100%;
+}
+
+.btn-readmore:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* Typewriter animation on focus */
+.btn-readmore:focus {
+  outline: none;
+  animation: typewriter 0.6s ease-in-out;
+}
+
+@keyframes typewriter {
+  0% { 
+    width: 0; 
+    overflow: hidden;
+  }
+  100% { 
+    width: 100%; 
+  }
+}
+
+/* Vintage ink effect */
+.btn-readmore:hover {
+  animation: ink-spread 0.4s ease-out;
+}
+
+@keyframes ink-spread {
+  0% {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  }
+  50% {
+    box-shadow: 0 6px 12px rgba(139, 69, 19, 0.4), 
+                0 0 0 3px rgba(218, 165, 32, 0.2);
+  }
+  100% {
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+  }
+}

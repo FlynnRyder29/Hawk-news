@@ -16,8 +16,8 @@ export class News extends Component {
     category:PropTypes.string
   }
 
-  constructor(){
-    super();
+  constructor(props){
+    super(props);
     this.state = {
       articles: [],
       loading: false,
@@ -25,6 +25,7 @@ export class News extends Component {
       totalResults:0,
       error:null,
     };
+    document.title=`HawK News -${this.props.category.charAt(0).toUpperCase()+this.props.category.slice(1)}`
   }
 
   async fetchNews(page){
@@ -73,11 +74,12 @@ export class News extends Component {
     return (
       <div className='container my-3'>
         {this.state.loading && <Spinner />}
-        <h1 className='text-center'>HawK News- Top Headlines</h1>
+        <h1 className='text-center'>HawK News</h1>
+        <h2 className='text-center'>Top {this.props.category.charAt(0).toUpperCase()+this.props.category.slice(1)} Headlines</h2>
         <div className="row">
           {!this.state.loading&&this.state.articles.map((element)=>{
           return <div className="col-md-4" key={element.url||element.title}>
-            <Newsitem title={element.title?element.title.slice(0,45):""} description={element.description?element.description.slice(0,88):""} imageUrl={element.urlToImage||"https://about.fb.com/wp-content/uploads/2023/09/GettyImages-686732223.jpg"} newsUrl={element.url}/>
+            <Newsitem title={element.title?element.title.slice(0,45):""} description={element.description?element.description.slice(0,88):""} imageUrl={element.urlToImage||"https://about.fb.com/wp-content/uploads/2023/09/GettyImages-686732223.jpg"} newsUrl={element.url} author={element.author} date={element.publishedAt}/>
           </div>
           })}
         </div>
