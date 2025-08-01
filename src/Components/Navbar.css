@@ -26,13 +26,13 @@ nav a {
   text-decoration: none;
   text-transform: uppercase;
   text-align: center;
-  color: white;
+  color: #e9d077;
   cursor: pointer;
   transition: color 0.3s ease-in-out; /* Smooth color transition */
 }
 
 nav a:hover {
-  color: #f1f1f1;
+  color: #d8b63a;
 }
 
 /* Animation bar */
@@ -102,7 +102,7 @@ a:nth-child(5):hover ~ .animation {
 .dropdown {
   position: relative;
   display: inline-block;
-  color: #f1f1f1;
+  color: #e9d077;
 }
 
 .dropbtn {
@@ -118,7 +118,7 @@ a:nth-child(5):hover ~ .animation {
 .dropdown-content {
   display: none;
   position: absolute;
-  background-color: rgb(212, 159, 0);
+  background-color: rgb(35, 20, 1);
   min-width: 160px;
   box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
   z-index: 1000;
@@ -129,7 +129,7 @@ a:nth-child(5):hover ~ .animation {
 }
 
 .dropdown-content a {
-  color: #000000;
+  color: #e9d077;
   padding: 10px 14px;
   text-decoration: none;
   display: block;
@@ -142,7 +142,7 @@ a:nth-child(5):hover ~ .animation {
 }
 
 .dropdown-content a:hover {
-  background-color: #220d01;
+  background-color: #b76a06;
 }
 
 .dropdown:hover .dropdown-content {

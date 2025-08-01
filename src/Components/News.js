@@ -32,10 +32,13 @@ export class News extends Component {
 
   async fetchNews(page,append=false) {
     this.setState({loading:!append,error:null});
+    this.props.setProgress(10);
     try{
-      let url=`https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=d590dec237464665828f9e1ca2994593&page=${page}&pageSize=${this.props.pageSize || 15}`;
+      let url=`https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=${this.props.apikey}&page=${page}&pageSize=${this.props.pageSize || 15}`;
       let data=await fetch(url);
+      this.props.setProgress(30);
       let parsedData=await data.json();
+      this.props.setProgress(50);
       this.setState(prevState =>({
         articles:append? [...prevState.articles, ...parsedData.articles] : parsedData.articles,
         totalResults:parsedData.totalResults||0,
@@ -45,6 +48,7 @@ export class News extends Component {
     }catch(error){
       this.setState({loading:false,error:"Failed to fetch news articles. Please try again later."});
     }
+    this.props.setProgress(100);
   }
 
   componentDidMount(){
