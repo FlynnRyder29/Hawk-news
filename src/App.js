@@ -1,29 +1,14 @@
 import './App.css';
-import React, { Component } from 'react';
+import {useState } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Navbar from './Components/Navbar';
 import News from './Components/News';
 import LoadingBar from "react-top-loading-bar";
 import ErrorBoundary from './Components/ErrorBoundary';
 
-export default class App extends Component {
-  state = {
-    progress: 0,
-    error: null
-  }
 
-  setProgress = (progress) => {
-    this.setState({ progress: progress });
-  }
-
-  // Error boundary for the entire app
-  componentDidCatch(error, errorInfo) {
-    console.error('App Error:', error, errorInfo);
-    this.setState({ error: error.message });
-  }
-
-  // Configuration for routes - easier to maintain
-  newsRoutes = [
+// Configuration for routes - easier to maintain
+const newsRoutes = [
     { path: "/", category: "general", key: "general" },
     { path: "/business", category: "business", key: "business" },
     { path: "/entertainment", category: "entertainment", key: "entertainment" },
@@ -33,15 +18,21 @@ export default class App extends Component {
     { path: "/technology", category: "technology", key: "technology" }
   ];
 
-  // Common props for all News components
-  commonNewsProps = {
+
+// Common props for all News components
+const commonNewsProps = {
     pageSize: 6,
     country: "us",
     apikey: process.env.REACT_APP_API_KEY
   };
 
-  render() {
-    const { progress, error } = this.state;
+
+  
+const App=()=>{
+  const [progress, setProgress] = useState(0);
+  const [error, setError] = useState(null);
+
+
 
     // If there's a critical app error, show error page
     if (error) {
@@ -83,21 +74,26 @@ export default class App extends Component {
             <LoadingBar
               color='#ff8800ff'
               progress={progress}
-              onLoaderFinished={() => this.setProgress(0)}
+              onLoaderFinished={() =>setProgress(0)}
               height={3}
+              shadow={true}
+              shadowStyle={{
+                boxShadow: '0 0 10px rgba(203, 68, 0, 0.56)'
+              }}
+
             />
             
             <Routes>
               {/* Generate routes dynamically */}
-              {this.newsRoutes.map(route => (
+              {newsRoutes.map(route => (
                 <Route 
                   key={route.key}
                   path={route.path} 
                   element={
                     <News 
-                      setProgress={this.setProgress}
+                      setProgress={setProgress}
                       category={route.category}
-                      {...this.commonNewsProps}
+                      {...commonNewsProps}
                       key={route.key}
                     />
                   } 
@@ -114,7 +110,6 @@ export default class App extends Component {
         </ErrorBoundary>
       </BrowserRouter>
     );
-  }
 }
 
 // Separate 404 component for better maintainability
@@ -167,3 +162,5 @@ const NotFoundPage = () => (
     </div>
   </div>
 );
+
+export default App;

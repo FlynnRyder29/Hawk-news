@@ -1,99 +1,90 @@
-import React, { Component } from 'react'
+import React, { useEffect, useState } from 'react'
 import Newsitem from './Newsitem'
 import './News.css';
 import Spinner from './Spinner';
 import PropTypes from 'prop-types';
 import InfiniteScroll from 'react-infinite-scroll-component';
 
-export class News extends Component {
+const News= (props)=>{
 
-  static defaultProps={
-    country:"in",
-    pageSize:6,
-    category:"general"
-  }
-  static propTypes={
-    country:PropTypes.string,
-    pageSize:PropTypes.number,
-    category:PropTypes.string
-  }
+  //State variables
+  const [articles, setArticles] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [page, setPage] = useState(1);
+  const [totalResults, setTotalResults] = useState(0);
+  const [error, setError] = useState(null);
+  //document.title=`HawK News -${props.category.charAt(0).toUpperCase()+props.category.slice(1)}`
 
-  constructor(props){
-    super(props);
-    this.state = {
-      articles: [],
-      loading: false,
-      page: 1,
-      totalResults:0,
-      error:null,
-    };
-    document.title=`HawK News -${this.props.category.charAt(0).toUpperCase()+this.props.category.slice(1)}`
-  }
+  
 
-  async fetchNews(page,append=false) {
-    this.setState({loading:!append,error:null});
-    this.props.setProgress(10);
+  const  fetchNews = async(page,append=false)=> {
+
+    setLoading(!append);
+    setError(null);
+    props.setProgress(10);
+
     try{
-      let url=`https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=${this.props.apikey}&page=${page}&pageSize=${this.props.pageSize || 15}`;
+      let url=`https://newsapi.org/v2/top-headlines?country=${props.country}&category=${props.category}&apiKey=${props.apikey}&page=${page}&pageSize=${props.pageSize || 15}`;
       let data=await fetch(url);
-      this.props.setProgress(30);
+      props.setProgress(30);
       let parsedData=await data.json();
-      this.props.setProgress(50);
-      this.setState(prevState =>({
-        articles:append? [...prevState.articles, ...parsedData.articles] : parsedData.articles,
-        totalResults:parsedData.totalResults||0,
-        loading:false,
-        page,
-      }));
+      props.setProgress(50);
+
+      if(append){
+        setArticles(prevArticles => [...prevArticles, ...parsedData.articles]);
+      }
+      else{
+        setArticles(parsedData.articles);
+      }
+      setTotalResults(parsedData.totalResults || 0);
+      setLoading(false);
+      setPage(page);
+      
     }catch(error){
-      this.setState({loading:false,error:"Failed to fetch news articles. Please try again later."});
+      setLoading(false);
+      setError("Failed to fetch news articles. Please try again later.");
     }
-    this.props.setProgress(100);
+    props.setProgress(100);
   }
 
-  componentDidMount(){
-    this.fetchNews(1);
-  }
-  handleNext=()=>{
-    if (this.state.page+1>Math.ceil(this.state.totalResults/this.props.pageSize)) {
-      this.setState({
-        error: "No more articles available."
-      });
+  useEffect(() => {
+    fetchNews(1);
+  },[])
+ 
+  const handleNext=()=>{
+    if (page+1>Math.ceil(totalResults/props.pageSize)) {
+      setError("You are already on the last page.");
       return;
 
     }
-    this.fetchNews(this.state.page+1);
+    fetchNews(page+1);
   }
   
-  handlePrevious=()=>{
-    if(this.state.page<=1){
-      this.setState({
-        error:"You are already on the first page."
-      });
+  const handlePrevious=()=>{
+    if(page<=1){
+      setError("You are already on the first page.");
       return;
     }
-    this.fetchNews(this.state.page-1);
+    fetchNews(page-1);
 
   }
 
-  fetchMoreData = async()=> { 
+  const fetchMoreData = async()=> { 
     
-    const nextPage = this.state.page + 1;
-    if (this.state.articles.length >= this.state.totalResults) {
+    const nextPage = page + 1;
+    if (articles.length >=totalResults) {
       return;
     }
-    await this.fetchNews(nextPage, true);
+    await fetchNews(nextPage, true);
   }
 
-  render() {
-    const { articles, loading, error, totalResults } = this.state;
     
     return (
       <>
         {/* Show spinner only for initial loading */}
         {loading && articles.length === 0 && <Spinner />}
         <h1 className='text-center'>HawK News</h1>
-        <h2 className='text-center'>Top {this.props.category.charAt(0).toUpperCase()+this.props.category.slice(1)} Headlines</h2>
+        <h2 className='text-center'>Top {props.category.charAt(0).toUpperCase()+props.category.slice(1)} Headlines</h2>
         
         {/* Show error message if there's an error */}
         {error && (
@@ -104,13 +95,13 @@ export class News extends Component {
         
         <InfiniteScroll
           dataLength={articles.length}
-          next={this.fetchMoreData}
+          next={fetchMoreData}
           hasMore={articles.length < totalResults}
           loader={<div className="text-center my-3"><Spinner /></div>}
           endMessage={
             <div className="text-center my-4">
               <p style={{ 
-                color: '#ca9204', 
+                color: '#062863ff', 
                 fontSize: '1.2rem', 
                 fontWeight: 'bold',
                 fontFamily: 'Times New Roman, serif'
@@ -143,7 +134,17 @@ export class News extends Component {
     
     )
     
-  }
 }
+
+News.defaultProps={
+    country:"in",
+    pageSize:6,
+    category:"general"
+  }
+News.propTypes={
+    country:PropTypes.string,
+    pageSize:PropTypes.number,
+    category:PropTypes.string
+  }
 
 export default News

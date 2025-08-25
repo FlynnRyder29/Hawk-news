@@ -1,7 +1,9 @@
 /* Navbar container */
 nav {
   margin: 20px auto 0;
-  position: relative;
+  position: sticky;
+  top: 0;
+  z-index: 1100; /* Ensure it's above other content */
   width: 90%; /* Make it responsive */
   max-width: 1000px; /* Optional: Set a maximum width */
   height: 50px;
